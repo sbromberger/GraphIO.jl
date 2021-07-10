@@ -1,17 +1,17 @@
-# This file contains helper functions for testing the various 
+# This file contains helper functions for testing the various
 # GraphIO formats
 
 using LightGraphs
 
 graphs = Dict{String,Graph}(
-    "graph1"    => CompleteGraph(5), 
-    "graph2"    => PathGraph(6),
-    "graph3"    =>WheelGraph(4)
+    "graph1"    => complete_graph(5),
+    "graph2"    => path_graph(6),
+    "graph3"    => wheel_graph(4)
     )
 digraphs = Dict{String,DiGraph}(
-    "digraph1"   => CompleteDiGraph(5), 
-    "digraph2"   => PathDiGraph(6),
-    "digraph3"   => WheelDiGraph(4)
+    "digraph1"  => complete_digraph(5),
+    "digraph2"  => path_digraph(6),
+    "digraph3"  => wheel_digraph(4)
 )
 allgraphs = merge(graphs, digraphs)
 
@@ -19,8 +19,8 @@ function gettempname()
     (f, fio) = mktemp()
     close(fio)
     return f
-end 
-        
+end
+
 function read_test(format::LightGraphs.AbstractGraphFormat, g::LightGraphs.AbstractGraph, gname::String="g",
     fname::AbstractString=""; testfail=false)
     @test loadgraph(fname, gname, format) == g
@@ -33,7 +33,6 @@ end
 function read_test_mult(format::LightGraphs.AbstractGraphFormat, d::Dict{String,G}, fname::AbstractString="") where G<: AbstractGraph
     rd = loadgraphs(fname, format)
     @test rd == d
-    
 end
 
 function write_test(format::LightGraphs.AbstractGraphFormat, g::LightGraphs.AbstractGraph, gname::String="g",
